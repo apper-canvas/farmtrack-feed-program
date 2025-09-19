@@ -7,7 +7,8 @@ const Layout = () => {
   const location = useLocation();
 
   const navigation = [
-    { name: "Dashboard", path: "/", icon: "LayoutDashboard" },
+{ name: "Dashboard", path: "/", icon: "LayoutDashboard" },
+    { name: "Farms", path: "/farms", icon: "Barn" },
     { name: "Crops", path: "/crops", icon: "Sprout" },
     { name: "Tasks", path: "/tasks", icon: "CheckSquare" },
     { name: "Finances", path: "/finances", icon: "DollarSign" },
