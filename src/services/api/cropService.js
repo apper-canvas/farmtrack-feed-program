@@ -13,12 +13,12 @@ class CropService {
     try {
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      const params = {
+const params = {
         fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "variety_c"}},
           {"field": {"Name": "planting_date_c"}},
-          {"field": {"Name": "expected_harvest_date_c"}},
+          {"field": {"Name": "harvest_date_c"}},
           {"field": {"Name": "field_location_c"}},
           {"field": {"Name": "quantity_c"}},
           {"field": {"Name": "status_c"}},
@@ -44,8 +44,8 @@ class CropService {
         Id: crop.Id,
         name: crop.name_c,
         variety: crop.variety_c,
-        plantingDate: crop.planting_date_c,
-        expectedHarvest: crop.expected_harvest_date_c,
+plantingDate: crop.planting_date_c,
+        expectedHarvest: crop.harvest_date_c,
         fieldLocation: crop.field_location_c,
         quantity: crop.quantity_c,
         status: crop.status_c,
@@ -62,11 +62,11 @@ class CropService {
       await new Promise(resolve => setTimeout(resolve, 200));
       
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "variety_c"}},
           {"field": {"Name": "planting_date_c"}},
-          {"field": {"Name": "expected_harvest_date_c"}},
+          {"field": {"Name": "harvest_date_c"}},
           {"field": {"Name": "field_location_c"}},
           {"field": {"Name": "quantity_c"}},
           {"field": {"Name": "status_c"}},
@@ -90,8 +90,8 @@ class CropService {
         Id: response.data.Id,
         name: response.data.name_c,
         variety: response.data.variety_c,
-        plantingDate: response.data.planting_date_c,
-        expectedHarvest: response.data.expected_harvest_date_c,
+plantingDate: response.data.planting_date_c,
+        expectedHarvest: response.data.harvest_date_c,
         fieldLocation: response.data.field_location_c,
         quantity: response.data.quantity_c,
         status: response.data.status_c,
@@ -110,10 +110,10 @@ class CropService {
       // Map UI field names to database field names
       const params = {
         records: [{
-          name_c: cropData.name,
+name_c: cropData.name,
           variety_c: cropData.variety,
           planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
-          expected_harvest_date_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
+          harvest_date_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
           field_location_c: cropData.fieldLocation,
           quantity_c: parseFloat(cropData.quantity) || 0,
           status_c: cropData.status,
@@ -146,8 +146,8 @@ class CropService {
             Id: createdCrop.Id,
             name: createdCrop.name_c,
             variety: createdCrop.variety_c,
-            plantingDate: createdCrop.planting_date_c,
-            expectedHarvest: createdCrop.expected_harvest_date_c,
+plantingDate: createdCrop.planting_date_c,
+            expectedHarvest: createdCrop.harvest_date_c,
             fieldLocation: createdCrop.field_location_c,
             quantity: createdCrop.quantity_c,
             status: createdCrop.status_c,
@@ -173,8 +173,8 @@ class CropService {
           Id: parseInt(id),
           name_c: cropData.name,
           variety_c: cropData.variety,
-          planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
-          expected_harvest_date_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
+planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
+          harvest_date_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
           field_location_c: cropData.fieldLocation,
           quantity_c: parseFloat(cropData.quantity) || 0,
           status_c: cropData.status,
@@ -207,8 +207,8 @@ class CropService {
             Id: updatedCrop.Id,
             name: updatedCrop.name_c,
             variety: updatedCrop.variety_c,
-            plantingDate: updatedCrop.planting_date_c,
-            expectedHarvest: updatedCrop.expected_harvest_date_c,
+plantingDate: updatedCrop.planting_date_c,
+            expectedHarvest: updatedCrop.harvest_date_c,
             fieldLocation: updatedCrop.field_location_c,
             quantity: updatedCrop.quantity_c,
             status: updatedCrop.status_c,
