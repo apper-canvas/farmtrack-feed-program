@@ -1,26 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { farmService } from "@/services/api/farmService";
+import ApperIcon from "@/components/ApperIcon";
+import Textarea from "@/components/atoms/Textarea";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
-import Textarea from "@/components/atoms/Textarea";
-import ApperIcon from "@/components/ApperIcon";
-import { farmService } from "@/services/api/farmService";
+import Select from "@/components/atoms/Select";
 
 const FarmForm = ({ farm, onSave, onCancel }) => {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: "",
     location: "",
-    description: ""
+    description: "",
+    type: "",
+    size: ""
   });
 
   useEffect(() => {
     if (farm) {
-      setFormData({
+setFormData({
         name: farm.name || "",
         location: farm.location || "",
-        description: farm.description || ""
+        description: farm.description || "",
+        type: farm.type || "",
+        size: farm.size || ""
       });
     }
   }, [farm]);
@@ -87,6 +92,42 @@ const FarmForm = ({ farm, onSave, onCancel }) => {
               value={formData.location}
               onChange={(e) => handleChange("location", e.target.value)}
               placeholder="Enter farm location"
+            />
+          </div>
+{/* Farm Type */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Farm Type
+            </label>
+            <Select
+              value={formData.type}
+              onChange={(value) => handleChange("type", value)}
+              placeholder="Select farm type..."
+              options={[
+                { value: "crop", label: "Crop Farm" },
+                { value: "dairy", label: "Dairy Farm" },
+                { value: "livestock", label: "Livestock Farm" },
+                { value: "mixed", label: "Mixed Farm" },
+                { value: "organic", label: "Organic Farm" },
+                { value: "poultry", label: "Poultry Farm" },
+                { value: "fruit", label: "Fruit Farm" },
+                { value: "vegetable", label: "Vegetable Farm" }
+              ]}
+            />
+          </div>
+
+          {/* Farm Size */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Size (Acres)
+            </label>
+            <Input
+              type="number"
+              value={formData.size}
+              onChange={(e) => handleChange("size", e.target.value)}
+              placeholder="Enter farm size in acres..."
+              min="0"
+              step="0.1"
             />
           </div>
 
