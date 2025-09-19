@@ -15,13 +15,11 @@ class FarmService {
     try {
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      const params = {
-fields: [
+const params = {
+        fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "location_c"}},
-          {"field": {"Name": "description_c"}},
-          {"field": {"Name": "type_c"}},
-          {"field": {"Name": "size_c"}}
+          {"field": {"Name": "description_c"}}
         ],
         orderBy: [{"fieldName": "Id", "sorttype": "DESC"}],
         pagingInfo: {"limit": 100, "offset": 0}
@@ -39,13 +37,13 @@ fields: [
       }
       
       // Map database field names to UI field names for backward compatibility
-      return response.data.map(farm => ({
+return response.data.map(farm => ({
         Id: farm.Id,
         name: farm.name_c,
-location: farm.location_c,
+        location: farm.location_c,
         description: farm.description_c,
-        type: farm.type_c || "",
-        size: farm.size_c || ""
+        type: "", // UI-only field, not persisted to database
+        size: "" // UI-only field, not persisted to database
       }));
     } catch (error) {
       console.error("Error fetching farms:", error?.response?.data?.message || error);
@@ -57,13 +55,11 @@ location: farm.location_c,
     try {
       await new Promise(resolve => setTimeout(resolve, 200));
       
-      const params = {
-fields: [
+const params = {
+        fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "location_c"}},
-          {"field": {"Name": "description_c"}},
-          {"field": {"Name": "type_c"}},
-          {"field": {"Name": "size_c"}}
+          {"field": {"Name": "description_c"}}
         ]
       };
       
@@ -79,13 +75,13 @@ fields: [
       }
       
       // Map database field names to UI field names
-      return {
+return {
         Id: response.data.Id,
-name: response.data.name_c,
+        name: response.data.name_c,
         location: response.data.location_c,
         description: response.data.description_c,
-        type: response.data.type_c || "",
-        size: response.data.size_c || ""
+        type: "", // UI-only field, not persisted to database
+        size: "" // UI-only field, not persisted to database
       };
     } catch (error) {
       console.error(`Error fetching farm ${id}:`, error?.response?.data?.message || error);
@@ -98,13 +94,12 @@ name: response.data.name_c,
       await new Promise(resolve => setTimeout(resolve, 400));
       
       // Map UI field names to database field names
-      const params = {
+const params = {
         records: [{
-name_c: farmData.name,
+          name_c: farmData.name,
           location_c: farmData.location,
-          description_c: farmData.description,
-          type_c: farmData.type,
-          size_c: farmData.size
+          description_c: farmData.description
+          // type and size fields excluded - not available in database schema
         }]
       };
       
@@ -132,13 +127,13 @@ name_c: farmData.name,
         if (successful.length > 0) {
           const createdFarm = successful[0].data;
           // Map back to UI field names
-          return {
+return {
             Id: createdFarm.Id,
             name: createdFarm.name_c,
-location: createdFarm.location_c,
+            location: createdFarm.location_c,
             description: createdFarm.description_c,
-            type: createdFarm.type_c || "",
-            size: createdFarm.size_c || ""
+            type: "", // UI-only field, not persisted to database
+            size: "" // UI-only field, not persisted to database
           };
         }
       }
@@ -155,14 +150,13 @@ location: createdFarm.location_c,
       await new Promise(resolve => setTimeout(resolve, 400));
       
       // Map UI field names to database field names
-      const params = {
+const params = {
         records: [{
           Id: parseInt(id),
-name_c: farmData.name,
+          name_c: farmData.name,
           location_c: farmData.location,
-          description_c: farmData.description,
-          type_c: farmData.type,
-          size_c: farmData.size
+          description_c: farmData.description
+          // type and size fields excluded - not available in database schema
         }]
       };
       
@@ -190,13 +184,13 @@ name_c: farmData.name,
 if (successful.length > 0) {
           const updatedFarm = successful[0].data;
           // Map back to UI field names
-          return {
+return {
             Id: updatedFarm.Id,
             name: updatedFarm.name_c,
             location: updatedFarm.location_c,
             description: updatedFarm.description_c,
-            type: updatedFarm.type_c || "",
-            size: updatedFarm.size_c || ""
+            type: "", // UI-only field, not persisted to database
+            size: "" // UI-only field, not persisted to database
           };
         }
       }
