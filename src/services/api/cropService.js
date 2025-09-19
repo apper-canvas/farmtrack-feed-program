@@ -128,15 +128,18 @@ name_c: cropData.name,
         throw new Error(response.message);
       }
       
-      if (response.results) {
+if (response.results) {
         const successful = response.results.filter(r => r.success);
         const failed = response.results.filter(r => !r.success);
         
-        if (failed.length > 0) {
+if (failed.length > 0) {
           console.error(`Failed to create ${failed.length} crops:`, JSON.stringify(failed));
-          failed.forEach(record => {
-            if (record.message) throw new Error(record.message);
+          const errorMessages = failed.flatMap(record => {
+            const errors = record.errors?.map(error => `${error.fieldLabel}: ${error}`) || [];
+            if (record.message) errors.push(record.message);
+            return errors;
           });
+          throw new Error(errorMessages.join(', ') || 'Failed to create crop');
         }
         
         if (successful.length > 0) {
@@ -146,7 +149,7 @@ name_c: cropData.name,
             Id: createdCrop.Id,
             name: createdCrop.name_c,
             variety: createdCrop.variety_c,
-plantingDate: createdCrop.planting_date_c,
+            plantingDate: createdCrop.planting_date_c,
             expectedHarvest: createdCrop.harvest_date_c,
             fieldLocation: createdCrop.field_location_c,
             quantity: createdCrop.quantity_c,
@@ -156,7 +159,7 @@ plantingDate: createdCrop.planting_date_c,
         }
       }
       
-      throw new Error("Failed to create crop");
+      return null;
     } catch (error) {
       console.error("Error creating crop:", error?.response?.data?.message || error);
       throw new Error(error?.message || "Failed to create crop");
@@ -189,15 +192,18 @@ planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
         throw new Error(response.message);
       }
       
-      if (response.results) {
+if (response.results) {
         const successful = response.results.filter(r => r.success);
         const failed = response.results.filter(r => !r.success);
         
-        if (failed.length > 0) {
+if (failed.length > 0) {
           console.error(`Failed to update ${failed.length} crops:`, JSON.stringify(failed));
-          failed.forEach(record => {
-            if (record.message) throw new Error(record.message);
+          const errorMessages = failed.flatMap(record => {
+            const errors = record.errors?.map(error => `${error.fieldLabel}: ${error}`) || [];
+            if (record.message) errors.push(record.message);
+            return errors;
           });
+          throw new Error(errorMessages.join(', ') || 'Failed to update crop');
         }
         
         if (successful.length > 0) {
@@ -207,7 +213,7 @@ planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
             Id: updatedCrop.Id,
             name: updatedCrop.name_c,
             variety: updatedCrop.variety_c,
-plantingDate: updatedCrop.planting_date_c,
+            plantingDate: updatedCrop.planting_date_c,
             expectedHarvest: updatedCrop.harvest_date_c,
             fieldLocation: updatedCrop.field_location_c,
             quantity: updatedCrop.quantity_c,
@@ -217,7 +223,7 @@ plantingDate: updatedCrop.planting_date_c,
         }
       }
       
-      throw new Error("Failed to update crop");
+      return null;
     } catch (error) {
       console.error("Error updating crop:", error?.response?.data?.message || error);
       throw new Error(error?.message || "Failed to update crop");
