@@ -22,7 +22,8 @@ const params = {
           {"field": {"Name": "field_location_c"}},
           {"field": {"Name": "quantity_c"}},
           {"field": {"Name": "status_c"}},
-          {"field": {"Name": "notes_c"}}
+          {"field": {"Name": "notes_c"}},
+          {"field": {"Name": "farm_c"}}
         ],
         orderBy: [{"fieldName": "Id", "sorttype": "DESC"}],
         pagingInfo: {"limit": 100, "offset": 0}
@@ -39,17 +40,18 @@ const params = {
         return [];
       }
       
-      // Map database field names to UI field names for backward compatibility
+// Map database field names to UI field names for backward compatibility
       return response.data.map(crop => ({
         Id: crop.Id,
         name: crop.name_c,
         variety: crop.variety_c,
-plantingDate: crop.planting_date_c,
-expectedHarvest: crop.expected_harvest_c,
+        plantingDate: crop.planting_date_c,
+        expectedHarvest: crop.expected_harvest_c,
         fieldLocation: crop.field_location_c,
         quantity: crop.quantity_c,
         status: crop.status_c,
-        notes: crop.notes_c
+        notes: crop.notes_c,
+        farm: crop.farm_c
       }));
     } catch (error) {
       console.error("Error fetching crops:", error?.response?.data?.message || error);
@@ -65,12 +67,13 @@ expectedHarvest: crop.expected_harvest_c,
 fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "variety_c"}},
-{"field": {"Name": "planting_date_c"}},
+          {"field": {"Name": "planting_date_c"}},
           {"field": {"Name": "expected_harvest_c"}},
           {"field": {"Name": "field_location_c"}},
           {"field": {"Name": "quantity_c"}},
           {"field": {"Name": "status_c"}},
-          {"field": {"Name": "notes_c"}}
+          {"field": {"Name": "notes_c"}},
+          {"field": {"Name": "farm_c"}}
         ]
       };
       
@@ -85,17 +88,18 @@ fields: [
         throw new Error("Crop not found");
       }
       
-      // Map database field names to UI field names
+// Map database field names to UI field names
       return {
         Id: response.data.Id,
         name: response.data.name_c,
         variety: response.data.variety_c,
-plantingDate: response.data.planting_date_c,
+        plantingDate: response.data.planting_date_c,
         expectedHarvest: response.data.expected_harvest_c,
         fieldLocation: response.data.field_location_c,
         quantity: response.data.quantity_c,
         status: response.data.status_c,
-        notes: response.data.notes_c
+        notes: response.data.notes_c,
+        farm: response.data.farm_c
       };
     } catch (error) {
       console.error(`Error fetching crop ${id}:`, error?.response?.data?.message || error);
@@ -109,15 +113,16 @@ plantingDate: response.data.planting_date_c,
       
       // Map UI field names to database field names
       const params = {
-        records: [{
-name_c: cropData.name,
+records: [{
+          name_c: cropData.name,
           variety_c: cropData.variety,
           planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
-expected_harvest_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
+          expected_harvest_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
           field_location_c: cropData.fieldLocation,
           quantity_c: parseFloat(cropData.quantity) || 0,
           status_c: cropData.status,
-          notes_c: cropData.notes
+          notes_c: cropData.notes,
+          farm_c: cropData.farm ? parseInt(cropData.farm) : null
         }]
       };
       
@@ -144,17 +149,18 @@ if (failed.length > 0) {
         
         if (successful.length > 0) {
           const createdCrop = successful[0].data;
-          // Map back to UI field names
+// Map back to UI field names
           return {
             Id: createdCrop.Id,
             name: createdCrop.name_c,
             variety: createdCrop.variety_c,
-plantingDate: createdCrop.planting_date_c,
+            plantingDate: createdCrop.planting_date_c,
             expectedHarvest: createdCrop.expected_harvest_c,
             fieldLocation: createdCrop.field_location_c,
             quantity: createdCrop.quantity_c,
             status: createdCrop.status_c,
-            notes: createdCrop.notes_c
+            notes: createdCrop.notes_c,
+            farm: createdCrop.farm_c
           };
         }
       }
@@ -172,16 +178,17 @@ plantingDate: createdCrop.planting_date_c,
       
       // Map UI field names to database field names
       const params = {
-        records: [{
+records: [{
           Id: parseInt(id),
           name_c: cropData.name,
           variety_c: cropData.variety,
-planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
-expected_harvest_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
+          planting_date_c: cropData.plantingDate ? cropData.plantingDate : null,
+          expected_harvest_c: cropData.expectedHarvest ? cropData.expectedHarvest : null,
           field_location_c: cropData.fieldLocation,
           quantity_c: parseFloat(cropData.quantity) || 0,
           status_c: cropData.status,
-          notes_c: cropData.notes
+          notes_c: cropData.notes,
+          farm_c: cropData.farm ? parseInt(cropData.farm) : null
         }]
       };
       
@@ -208,17 +215,18 @@ if (failed.length > 0) {
         
         if (successful.length > 0) {
           const updatedCrop = successful[0].data;
-          // Map back to UI field names
+// Map back to UI field names
           return {
             Id: updatedCrop.Id,
             name: updatedCrop.name_c,
             variety: updatedCrop.variety_c,
-plantingDate: updatedCrop.planting_date_c,
+            plantingDate: updatedCrop.planting_date_c,
             expectedHarvest: updatedCrop.expected_harvest_c,
             fieldLocation: updatedCrop.field_location_c,
             quantity: updatedCrop.quantity_c,
             status: updatedCrop.status_c,
-            notes: updatedCrop.notes_c
+            notes: updatedCrop.notes_c,
+            farm: updatedCrop.farm_c
           };
         }
       }

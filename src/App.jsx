@@ -1,21 +1,22 @@
-import { createContext, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, BrowserRouter } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { createContext, useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { setUser, clearUser } from './store/userSlice';
 import Layout from "@/components/organisms/Layout";
+import PromptPassword from "@/components/pages/PromptPassword";
+import ResetPassword from "@/components/pages/ResetPassword";
+import Callback from "@/components/pages/Callback";
+import NotFound from "@/components/pages/NotFound";
+import Signup from "@/components/pages/Signup";
 import Dashboard from "@/components/pages/Dashboard";
+import Finances from "@/components/pages/Finances";
+import Login from "@/components/pages/Login";
+import ErrorPage from "@/components/pages/ErrorPage";
 import Crops from "@/components/pages/Crops";
 import Tasks from "@/components/pages/Tasks";
-import Finances from "@/components/pages/Finances";
 import Weather from "@/components/pages/Weather";
-import Login from '@/components/pages/Login';
-import Signup from '@/components/pages/Signup';
-import Callback from '@/components/pages/Callback';
-import ErrorPage from '@/components/pages/ErrorPage';
-import NotFound from '@/components/pages/NotFound';
-import ResetPassword from '@/components/pages/ResetPassword';
-import PromptPassword from '@/components/pages/PromptPassword';
+import Farms from "@/components/pages/Farms";
+import { clearUser, setUser } from "@/store/userSlice";
 
 // Create auth context
 export const AuthContext = createContext(null);
@@ -131,8 +132,9 @@ function AppContent() {
           <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
 <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-<Route path="crops" element={<Crops />} />
+<Route index element={<Dashboard />} />
+            <Route path="farms" element={<Farms />} />
+            <Route path="crops" element={<Crops />} />
             <Route path="tasks" element={<Tasks />} />
             <Route path="finances" element={<Finances />} />
             <Route path="weather" element={<Weather />} />

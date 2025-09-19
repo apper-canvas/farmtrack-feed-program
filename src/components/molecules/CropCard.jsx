@@ -74,7 +74,17 @@ return iconMap[cropName?.toLowerCase()] || "Sprout";
           <span className="font-medium text-gray-900">{crop.quantity} acres</span>
         </div>
         
-<div className="flex items-center justify-between text-sm">
+{crop.farm && (
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-600 flex items-center space-x-1">
+              <ApperIcon name="TreePine" className="h-4 w-4" />
+              <span>Farm</span>
+            </span>
+            <span className="font-medium text-gray-900">{crop.farm.Name || crop.farm}</span>
+          </div>
+        )}
+
+        <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600 flex items-center space-x-1">
             <ApperIcon name="Calendar" className="h-4 w-4" />
             <span>Planted</span>
