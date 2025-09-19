@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
+import { AuthContext } from '../pages/../../App';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useContext(AuthContext);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
 
   const navigation = [
     { name: "Dashboard", path: "/", icon: "LayoutDashboard" },
@@ -18,6 +22,14 @@ const Header = () => {
   const isActivePath = (path) => {
     if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -53,6 +65,26 @@ const Header = () => {
                 <span>{item.name}</span>
               </Link>
             ))}
+            
+            {/* User section and logout */}
+            {isAuthenticated && (
+              <div className="flex items-center space-x-2 ml-4 pl-4 border-l border-gray-200">
+                {user && (
+                  <div className="text-sm text-gray-600">
+                    Hello, {user.firstName || user.name || 'User'}
+                  </div>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon="LogOut"
+                  onClick={handleLogout}
+                  className="text-gray-600 hover:text-primary-600"
+                >
+                  Logout
+                </Button>
+              </div>
+            )}
           </nav>
 
           {/* Mobile menu button */}
@@ -86,6 +118,29 @@ const Header = () => {
                 <span>{item.name}</span>
               </Link>
             ))}
+            
+            {/* Mobile user section and logout */}
+            {isAuthenticated && (
+              <div className="border-t border-gray-200 pt-4 mt-4">
+                {user && (
+                  <div className="text-sm text-gray-600 px-4 py-2">
+                    Hello, {user.firstName || user.name || 'User'}
+                  </div>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  icon="LogOut"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleLogout();
+                  }}
+                  className="w-full justify-start text-gray-600 hover:text-primary-600"
+                >
+                  Logout
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}
