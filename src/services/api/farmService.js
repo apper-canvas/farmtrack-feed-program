@@ -1,5 +1,3 @@
-import React from "react";
-import Error from "@/components/ui/Error";
 class FarmService {
   constructor() {
     // Initialize ApperClient with Project ID and Public Key
@@ -15,7 +13,7 @@ class FarmService {
     try {
       await new Promise(resolve => setTimeout(resolve, 300));
       
-const params = {
+      const params = {
         fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "location_c"}},
@@ -37,13 +35,11 @@ const params = {
       }
       
       // Map database field names to UI field names for backward compatibility
-return response.data.map(farm => ({
+      return response.data.map(farm => ({
         Id: farm.Id,
         name: farm.name_c,
         location: farm.location_c,
-        description: farm.description_c,
-        type: "", // UI-only field, not persisted to database
-        size: "" // UI-only field, not persisted to database
+        description: farm.description_c
       }));
     } catch (error) {
       console.error("Error fetching farms:", error?.response?.data?.message || error);
@@ -55,7 +51,7 @@ return response.data.map(farm => ({
     try {
       await new Promise(resolve => setTimeout(resolve, 200));
       
-const params = {
+      const params = {
         fields: [
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "location_c"}},
@@ -75,13 +71,11 @@ const params = {
       }
       
       // Map database field names to UI field names
-return {
+      return {
         Id: response.data.Id,
         name: response.data.name_c,
         location: response.data.location_c,
-        description: response.data.description_c,
-        type: "", // UI-only field, not persisted to database
-        size: "" // UI-only field, not persisted to database
+        description: response.data.description_c
       };
     } catch (error) {
       console.error(`Error fetching farm ${id}:`, error?.response?.data?.message || error);
@@ -94,12 +88,11 @@ return {
       await new Promise(resolve => setTimeout(resolve, 400));
       
       // Map UI field names to database field names
-const params = {
+      const params = {
         records: [{
           name_c: farmData.name,
           location_c: farmData.location,
           description_c: farmData.description
-          // type and size fields excluded - not available in database schema
         }]
       };
       
@@ -127,13 +120,11 @@ const params = {
         if (successful.length > 0) {
           const createdFarm = successful[0].data;
           // Map back to UI field names
-return {
+          return {
             Id: createdFarm.Id,
             name: createdFarm.name_c,
             location: createdFarm.location_c,
-            description: createdFarm.description_c,
-            type: "", // UI-only field, not persisted to database
-            size: "" // UI-only field, not persisted to database
+            description: createdFarm.description_c
           };
         }
       }
@@ -150,13 +141,12 @@ return {
       await new Promise(resolve => setTimeout(resolve, 400));
       
       // Map UI field names to database field names
-const params = {
+      const params = {
         records: [{
           Id: parseInt(id),
           name_c: farmData.name,
           location_c: farmData.location,
           description_c: farmData.description
-          // type and size fields excluded - not available in database schema
         }]
       };
       
@@ -181,19 +171,18 @@ const params = {
           throw new Error(errorMessages.join(', ') || 'Failed to update farm');
         }
         
-if (successful.length > 0) {
+        if (successful.length > 0) {
           const updatedFarm = successful[0].data;
           // Map back to UI field names
-return {
+          return {
             Id: updatedFarm.Id,
             name: updatedFarm.name_c,
             location: updatedFarm.location_c,
-            description: updatedFarm.description_c,
-            type: "", // UI-only field, not persisted to database
-            size: "" // UI-only field, not persisted to database
+            description: updatedFarm.description_c
           };
         }
       }
+      
       return null;
     } catch (error) {
       console.error("Error updating farm:", error?.response?.data?.message || error);
