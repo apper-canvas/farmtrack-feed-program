@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { farmService } from '@/services/api/farmService';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
-import Textarea from '@/components/atoms/Textarea';
-import Card from '@/components/atoms/Card';
-import Badge from '@/components/atoms/Badge';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import ApperIcon from '@/components/ApperIcon';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { farmService } from "@/services/api/farmService";
+import ApperIcon from "@/components/ApperIcon";
+import Textarea from "@/components/atoms/Textarea";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
+import Input from "@/components/atoms/Input";
+import Select from "@/components/atoms/Select";
+import Loading from "@/components/ui/Loading";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
 
 const Farms = () => {
   const [farms, setFarms] = useState([]);
@@ -18,10 +19,12 @@ const Farms = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingFarm, setEditingFarm] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: '',
     location: '',
-    description: ''
+    description: '',
+    type: '',
+    size: ''
   });
   const [formLoading, setFormLoading] = useState(false);
 
@@ -46,8 +49,8 @@ const Farms = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.name.trim() || !formData.location.trim()) {
-      toast.error('Name and location are required');
+if (!formData.name.trim() || !formData.location.trim() || !formData.type.trim() || !formData.size.trim()) {
+      toast.error('Name, location, type, and size are required');
       return;
     }
 
@@ -73,9 +76,11 @@ const Farms = () => {
   const handleEdit = (farm) => {
     setEditingFarm(farm);
     setFormData({
-      name: farm.name || '',
+name: farm.name || '',
       location: farm.location || '',
-      description: farm.description || ''
+      description: farm.description || '',
+      type: farm.type || '',
+      size: farm.size || ''
     });
     setShowForm(true);
   };
@@ -95,7 +100,7 @@ const Farms = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', location: '', description: '' });
+setFormData({ name: '', location: '', description: '', type: '', size: '' });
     setEditingFarm(null);
     setShowForm(false);
   };
@@ -179,6 +184,41 @@ const Farms = () => {
                     value={formData.location}
                     onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                     placeholder="Enter farm location"
+                    required
+                  />
+</div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Type *
+                  </label>
+                  <Select
+                    value={formData.type}
+                    onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
+                    required
+                  >
+                    <option value="">Select farm type</option>
+                    <option value="Crop Farm">Crop Farm</option>
+                    <option value="Livestock Farm">Livestock Farm</option>
+                    <option value="Dairy Farm">Dairy Farm</option>
+                    <option value="Poultry Farm">Poultry Farm</option>
+                    <option value="Mixed Farm">Mixed Farm</option>
+                    <option value="Organic Farm">Organic Farm</option>
+                    <option value="Greenhouse">Greenhouse</option>
+                  </Select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Size (acres) *
+                  </label>
+                  <Input
+                    type="number"
+                    value={formData.size}
+                    onChange={(e) => setFormData(prev => ({ ...prev, size: e.target.value }))}
+                    placeholder="Enter farm size in acres"
+                    min="0"
+                    step="0.1"
                     required
                   />
                 </div>
