@@ -48,12 +48,11 @@ const FinancialForm = ({ financial, onSave, onCancel }) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
+try {
       const financialData = {
         ...formData,
         amount: parseFloat(formData.amount) || 0
       };
-};
 
       if (financial && financial.Id) {
         await financialService.update(financial.Id, financialData);
