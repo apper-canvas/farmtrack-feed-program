@@ -51,42 +51,7 @@ const navigation = [
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 ${
-                  isActivePath(item.path)
-                    ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg"
-                    : "text-gray-600 hover:text-primary-600 hover:bg-primary-50"
-                }`}
-              >
-                <ApperIcon name={item.icon} className="h-5 w-5" />
-                <span>{item.name}</span>
-              </Link>
-            ))}
-            
-            {/* User section and logout */}
-            {isAuthenticated && (
-              <div className="flex items-center space-x-2 ml-4 pl-4 border-l border-gray-200">
-                {user && (
-                  <div className="text-sm text-gray-600">
-                    Hello, {user.firstName || user.name || 'User'}
-                  </div>
-                )}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  icon="LogOut"
-                  onClick={handleLogout}
-                  className="text-gray-600 hover:text-primary-600"
-                >
-                  Logout
-                </Button>
-              </div>
-            )}
-          </nav>
+{/* Mobile menu button */}
 
           {/* Mobile menu button */}
           <Button
