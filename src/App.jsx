@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import { setUser, clearUser } from './store/userSlice';
 import Layout from "@/components/organisms/Layout";
 import Dashboard from "@/components/pages/Dashboard";
-import Farm from "@/components/pages/Farm";
 import Crops from "@/components/pages/Crops";
 import Tasks from "@/components/pages/Tasks";
 import Finances from "@/components/pages/Finances";
@@ -133,7 +132,6 @@ function AppContent() {
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
 <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
-            <Route path="farm" element={<Farm />} />
             <Route path="crops" element={<Crops />} />
             <Route path="tasks" element={<Tasks />} />
             <Route path="finances" element={<Finances />} />
