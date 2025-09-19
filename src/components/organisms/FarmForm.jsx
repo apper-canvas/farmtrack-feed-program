@@ -101,19 +101,18 @@ setFormData({
             </label>
             <Select
               value={formData.type}
-              onChange={(value) => handleChange("type", value)}
+              onChange={(e) => handleChange("type", e.target.value)}
               placeholder="Select farm type..."
-              options={[
-                { value: "crop", label: "Crop Farm" },
-                { value: "dairy", label: "Dairy Farm" },
-                { value: "livestock", label: "Livestock Farm" },
-                { value: "mixed", label: "Mixed Farm" },
-                { value: "organic", label: "Organic Farm" },
-                { value: "poultry", label: "Poultry Farm" },
-                { value: "fruit", label: "Fruit Farm" },
-                { value: "vegetable", label: "Vegetable Farm" }
-              ]}
-            />
+            >
+              <option value="crop">Crop Farm</option>
+              <option value="dairy">Dairy Farm</option>
+              <option value="livestock">Livestock Farm</option>
+              <option value="mixed">Mixed Farm</option>
+              <option value="organic">Organic Farm</option>
+              <option value="poultry">Poultry Farm</option>
+              <option value="fruit">Fruit Farm</option>
+              <option value="vegetable">Vegetable Farm</option>
+            </Select>
           </div>
 
           {/* Farm Size */}
