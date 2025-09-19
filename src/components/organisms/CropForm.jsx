@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { cropService } from "@/services/api/cropService";
-import farmService from "@/services/api/farmService";
 import Textarea from "@/components/atoms/Textarea";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
@@ -19,44 +18,24 @@ const CropForm = ({ crop, onSave, onCancel }) => {
     status: "planted",
     notes: "",
     farm: ""
-  });
-
+});
   const [loading, setLoading] = useState(false);
-  const [farms, setFarms] = useState([]);
-  const [farmsLoading, setFarmsLoading] = useState(false);
+
 useEffect(() => {
-  const fetchFarms = async () => {
-    setFarmsLoading(true);
-    try {
-      const response = await farmService.getAll();
-      setFarms(response.data || []);
-    } catch (error) {
-      console.error('Failed to fetch farms:', error);
-      toast.error('Failed to load farms');
-      setFarms([]);
-    } finally {
-      setFarmsLoading(false);
+    if (crop) {
+      setFormData({
+        name: crop.name || "",
+        variety: crop.variety || "",
+        plantingDate: crop.plantingDate ? crop.plantingDate.split("T")[0] : "",
+        expectedHarvest: crop.expectedHarvest ? crop.expectedHarvest.split("T")[0] : "",
+        fieldLocation: crop.fieldLocation || "",
+        quantity: crop.quantity || "",
+        status: crop.status || "planted",
+        notes: crop.notes || "",
+        farm: crop.farm || ""
+      });
     }
-  };
-
-  fetchFarms();
-}, []);
-
-useEffect(() => {
-  if (crop) {
-    setFormData({
-      name: crop.name || "",
-      variety: crop.variety || "",
-      plantingDate: crop.plantingDate ? crop.plantingDate.split("T")[0] : "",
-      expectedHarvest: crop.expectedHarvest ? crop.expectedHarvest.split("T")[0] : "",
-      fieldLocation: crop.fieldLocation || "",
-      quantity: crop.quantity || "",
-      status: crop.status || "planted",
-      notes: crop.notes || "",
-      farm: crop.farm || ""
-    });
-  }
-}, [crop]);
+  }, [crop]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,7 +63,7 @@ useEffect(() => {
     }
   };
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -115,28 +94,11 @@ useEffect(() => {
             label="Variety"
             name="variety"
             value={formData.variety}
-            onChange={handleChange}
+onChange={handleChange}
             placeholder="e.g., Sweet Corn, Winter Wheat"
           />
-</div>
+        </div>
 
-        <Select
-          label="Farm"
-          name="farm"
-          value={formData.farm}
-          onChange={handleChange}
-          required
-          disabled={farmsLoading}
-        >
-          <option value="">
-            {farmsLoading ? "Loading farms..." : "Select a farm..."}
-          </option>
-          {farms.map((farm) => (
-            <option key={farm.Id} value={farm.Id}>
-              {farm.name} {farm.location ? `- ${farm.location}` : ''}
-            </option>
-          ))}
-        </Select>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             label="Planting Date"
