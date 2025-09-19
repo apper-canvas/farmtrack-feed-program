@@ -67,7 +67,7 @@ const Dashboard = () => {
   if (error) return <Error message={error} onRetry={loadDashboardData} />;
 
   // Calculate statistics
-const activeCrops = data.crops.filter(crop => crop.status !== "harvested").length;
+  const activeCrops = data.crops.filter(crop => crop.status !== "harvested").length;
   const pendingTasks = data.tasks.filter(task => !task.completed).length;
   const overdueTasks = data.tasks.filter(task => 
     !task.completed && task.dueDate && !isNaN(new Date(task.dueDate)) && new Date(task.dueDate) < new Date()
@@ -84,7 +84,6 @@ const activeCrops = data.crops.filter(crop => crop.status !== "harvested").lengt
   const netIncome = totalIncome - totalExpenses;
 
   // Get upcoming tasks
-// Get upcoming tasks
   const upcomingTasks = data.tasks
     .filter(task => !task.completed)
     .sort((a, b) => {
@@ -238,7 +237,7 @@ const activeCrops = data.crops.filter(crop => crop.status !== "harvested").lengt
           <h2 className="text-xl font-bold text-gray-900">Quick Actions</h2>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <Button
             onClick={() => navigate("/crops")}
             variant="outline"
