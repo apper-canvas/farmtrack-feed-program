@@ -1,9 +1,9 @@
 import React from "react";
-import Card from "@/components/atoms/Card";
-import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
 import { format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
 
 const TaskItem = ({ task, onComplete, onEdit, onDelete }) => {
   const getPriorityVariant = (priority) => {
@@ -15,7 +15,7 @@ const TaskItem = ({ task, onComplete, onEdit, onDelete }) => {
     }
   };
 
-  const getCategoryIcon = (category) => {
+const getCategoryIcon = (category) => {
     const iconMap = {
       "planting": "Sprout",
       "watering": "Droplets",
@@ -27,7 +27,9 @@ const TaskItem = ({ task, onComplete, onEdit, onDelete }) => {
     return iconMap[category?.toLowerCase()] || "CheckSquare";
   };
 
-  const isOverdue = new Date(task.dueDate) < new Date() && !task.completed;
+  const isOverdue = (task.dueDate && !isNaN(new Date(task.dueDate)))
+    ? new Date(task.dueDate) < new Date() && !task.completed
+    : false;
 
   return (
     <Card className={`transition-all duration-200 ${task.completed ? 'opacity-75 bg-gradient-to-r from-green-50 to-green-100' : ''} ${isOverdue ? 'ring-2 ring-red-200' : ''}`}>
@@ -61,9 +63,10 @@ const TaskItem = ({ task, onComplete, onEdit, onDelete }) => {
             <div className="flex items-center space-x-3 text-sm">
               <div className="flex items-center space-x-1 text-gray-500">
                 <ApperIcon name="Calendar" className="h-4 w-4" />
-                <span className={isOverdue ? 'text-red-600 font-medium' : ''}>
-                  {format(new Date(task.dueDate), "MMM dd, yyyy")}
-                </span>
+                {task.dueDate && !isNaN(new Date(task.dueDate))
+                  ? format(new Date(task.dueDate), "MMM dd, yyyy")
+                  : "No due date"
+                }
               </div>
               
               <Badge variant={getPriorityVariant(task.priority)} size="sm">

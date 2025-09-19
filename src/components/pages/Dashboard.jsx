@@ -67,10 +67,10 @@ const Dashboard = () => {
   if (error) return <Error message={error} onRetry={loadDashboardData} />;
 
   // Calculate statistics
-  const activeCrops = data.crops.filter(crop => crop.status !== "harvested").length;
+const activeCrops = data.crops.filter(crop => crop.status !== "harvested").length;
   const pendingTasks = data.tasks.filter(task => !task.completed).length;
   const overdueTasks = data.tasks.filter(task => 
-    !task.completed && new Date(task.dueDate) < new Date()
+    !task.completed && task.dueDate && !isNaN(new Date(task.dueDate)) && new Date(task.dueDate) < new Date()
   ).length;
   
   const totalIncome = data.financials
@@ -84,11 +84,15 @@ const Dashboard = () => {
   const netIncome = totalIncome - totalExpenses;
 
   // Get upcoming tasks
+// Get upcoming tasks
   const upcomingTasks = data.tasks
     .filter(task => !task.completed)
-    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    .sort((a, b) => {
+      const dateA = (a.dueDate && !isNaN(new Date(a.dueDate))) ? new Date(a.dueDate) : new Date(0);
+      const dateB = (b.dueDate && !isNaN(new Date(b.dueDate))) ? new Date(b.dueDate) : new Date(0);
+      return dateA - dateB;
+    })
     .slice(0, 5);
-
   // Get today's weather
   const todayWeather = data.weather[0];
 

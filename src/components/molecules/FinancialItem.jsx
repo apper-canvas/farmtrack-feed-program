@@ -1,9 +1,9 @@
 import React from "react";
-import Card from "@/components/atoms/Card";
-import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
 import { format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
 
 const FinancialItem = ({ financial, onEdit, onDelete }) => {
   const isIncome = financial.type === "income";
@@ -57,13 +57,15 @@ const FinancialItem = ({ financial, onEdit, onDelete }) => {
                   maximumFractionDigits: 2 
                 })}
               </span>
-            </div>
+</div>
             
             <div className="flex items-center space-x-4 text-sm">
-              <div className="flex items-center space-x-1 text-gray-500">
-                <ApperIcon name="Calendar" className="h-4 w-4" />
-                <span>{format(new Date(financial.date), "MMM dd, yyyy")}</span>
-              </div>
+              <span>
+                {financial.date && !isNaN(new Date(financial.date)) 
+                  ? format(new Date(financial.date), "MMM dd, yyyy")
+                  : "--"
+                }
+              </span>
               
               <Badge 
                 variant={isIncome ? "success" : "danger"} 

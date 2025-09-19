@@ -1,9 +1,9 @@
 import React from "react";
-import Card from "@/components/atoms/Card";
-import Badge from "@/components/atoms/Badge";
-import Button from "@/components/atoms/Button";
+import { differenceInDays, format } from "date-fns";
 import ApperIcon from "@/components/ApperIcon";
-import { format, differenceInDays } from "date-fns";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
 
 const CropCard = ({ crop, onEdit, onDelete }) => {
   const getStatusVariant = (status) => {
@@ -26,12 +26,17 @@ const CropCard = ({ crop, onEdit, onDelete }) => {
       "lettuce": "Leaf",
       "beans": "Sprout"
     };
-    return iconMap[cropName?.toLowerCase()] || "Sprout";
+return iconMap[cropName?.toLowerCase()] || "Sprout";
   };
 
-  const daysUntilHarvest = differenceInDays(new Date(crop.expectedHarvest), new Date());
-  const isReadyForHarvest = daysUntilHarvest <= 0;
-
+  const daysFromPlanting = crop.plantingDate ? differenceInDays(new Date(), new Date(crop.plantingDate)) : 0;
+  
+  const daysUntilHarvest = (crop.expectedHarvest && !isNaN(new Date(crop.expectedHarvest))) 
+    ? differenceInDays(new Date(crop.expectedHarvest), new Date())
+    : 0;
+  
+  const isReadyForHarvest = daysUntilHarvest <= 0 && crop.status?.toLowerCase() === 'ready';
+  
   return (
     <Card className={`relative overflow-hidden ${isReadyForHarvest ? 'ring-2 ring-yellow-400 ring-opacity-50' : ''}`}>
       <div className="flex items-start justify-between mb-4">
@@ -69,23 +74,29 @@ const CropCard = ({ crop, onEdit, onDelete }) => {
           <span className="font-medium text-gray-900">{crop.quantity} acres</span>
         </div>
         
-        <div className="flex items-center justify-between text-sm">
+<div className="flex items-center justify-between text-sm">
           <span className="text-gray-600 flex items-center space-x-1">
             <ApperIcon name="Calendar" className="h-4 w-4" />
             <span>Planted</span>
           </span>
           <span className="font-medium text-gray-900">
-            {format(new Date(crop.plantingDate), "MMM dd, yyyy")}
+            {crop.plantingDate && !isNaN(new Date(crop.plantingDate))
+              ? format(new Date(crop.plantingDate), "MMM dd, yyyy")
+              : "--"
+            }
           </span>
         </div>
         
-        <div className="flex items-center justify-between text-sm">
+<div className="flex items-center justify-between text-sm">
           <span className="text-gray-600 flex items-center space-x-1">
             <ApperIcon name="Target" className="h-4 w-4" />
             <span>Expected Harvest</span>
           </span>
-          <span className={`font-medium ${isReadyForHarvest ? 'text-yellow-600' : 'text-gray-900'}`}>
-            {format(new Date(crop.expectedHarvest), "MMM dd, yyyy")}
+          <span className="font-medium text-gray-900">
+            {crop.expectedHarvest && !isNaN(new Date(crop.expectedHarvest))
+              ? format(new Date(crop.expectedHarvest), "MMM dd, yyyy")
+              : "TBD"
+            }
           </span>
         </div>
         
