@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { cropService } from "@/services/api/cropService";
-import { farmService } from "@/services/api/farmService";
+import farmService from "@/services/api/farmService";
 import Textarea from "@/components/atoms/Textarea";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
