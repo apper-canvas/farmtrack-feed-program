@@ -49,8 +49,8 @@ const [formData, setFormData] = useState({
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-if (!formData.name.trim() || !formData.location.trim() || !formData.type.trim() || !formData.size.trim()) {
-      toast.error('Name, location, type, and size are required');
+if (!formData.name.trim() || !formData.location.trim()) {
+      toast.error('Name and location are required');
       return;
     }
 
