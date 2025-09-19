@@ -11,10 +11,11 @@ const Header = () => {
   const { logout } = useContext(AuthContext);
   const { user, isAuthenticated } = useSelector((state) => state.user);
 
-  const navigation = [
+const navigation = [
 { name: "Dashboard", path: "/", icon: "LayoutDashboard" },
     { name: "Crops", path: "/crops", icon: "Sprout" },
     { name: "Tasks", path: "/tasks", icon: "CheckSquare" },
+    { name: "Farms", path: "/farms", icon: "Building2" },
     { name: "Finances", path: "/finances", icon: "DollarSign" },
     { name: "Weather", path: "/weather", icon: "Cloud" }
   ];
