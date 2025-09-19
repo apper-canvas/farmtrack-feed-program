@@ -17,7 +17,9 @@ class FarmService {
 fields: [
 {"field": {"Name": "name_c"}},
           {"field": {"Name": "location_c"}},
-          {"field": {"Name": "description_c"}}
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "size_c"}}
         ],
         orderBy: [{"fieldName": "Id", "sorttype": "DESC"}],
         pagingInfo: {"limit": 100, "offset": 0}
@@ -39,7 +41,9 @@ fields: [
         Id: farm.Id,
 name: farm.name_c,
         location: farm.location_c,
-        description: farm.description_c
+        description: farm.description_c,
+        type: farm.type_c,
+        size: farm.size_c
       }));
     } catch (error) {
       console.error("Error fetching farms:", error?.response?.data?.message || error);
@@ -52,10 +56,12 @@ name: farm.name_c,
       await new Promise(resolve => setTimeout(resolve, 200));
       
       const params = {
-        fields: [
+fields: [
 {"field": {"Name": "name_c"}},
 {"field": {"Name": "location_c"}},
-          {"field": {"Name": "description_c"}}
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "type_c"}},
+          {"field": {"Name": "size_c"}}
         ]
       };
       
@@ -75,7 +81,9 @@ name: farm.name_c,
         Id: response.data.Id,
 name: response.data.name_c,
         location: response.data.location_c,
-        description: response.data.description_c
+        description: response.data.description_c,
+        type: response.data.type_c,
+        size: response.data.size_c
       };
     } catch (error) {
       console.error(`Error fetching farm ${id}:`, error?.response?.data?.message || error);
@@ -92,7 +100,9 @@ name: response.data.name_c,
         records: [{
 name_c: farmData.name,
           location_c: farmData.location,
-          description_c: farmData.description
+          description_c: farmData.description,
+          type_c: farmData.type,
+          size_c: farmData.size
         }]
       };
       
@@ -124,7 +134,9 @@ name_c: farmData.name,
             Id: createdFarm.Id,
 name: createdFarm.name_c,
 location: createdFarm.location_c,
-            description: createdFarm.description_c
+description: createdFarm.description_c,
+            type: createdFarm.type_c,
+            size: createdFarm.size_c
           };
         }
       }
@@ -146,7 +158,9 @@ location: createdFarm.location_c,
           Id: parseInt(id),
 name_c: farmData.name,
           location_c: farmData.location,
-          description_c: farmData.description
+          description_c: farmData.description,
+          type_c: farmData.type,
+          size_c: farmData.size
         }]
       };
       
@@ -178,7 +192,9 @@ if (successful.length > 0) {
             Id: updatedFarm.Id,
 name: updatedFarm.name_c,
             location: updatedFarm.location_c,
-            description: updatedFarm.description_c
+            description: updatedFarm.description_c,
+            type: updatedFarm.type_c,
+            size: updatedFarm.size_c
           };
         }
       }
