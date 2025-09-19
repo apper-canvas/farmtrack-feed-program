@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { financialService } from "@/services/api/financialService";
+import { cropService } from "@/services/api/cropService";
+import Textarea from "@/components/atoms/Textarea";
+import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
-import Textarea from "@/components/atoms/Textarea";
-import Card from "@/components/atoms/Card";
-import { financialService } from "@/services/api/financialService";
-import { cropService } from "@/services/api/cropService";
 
 const FinancialForm = ({ financial, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -53,15 +53,15 @@ const FinancialForm = ({ financial, onSave, onCancel }) => {
         ...formData,
         amount: parseFloat(formData.amount) || 0
       };
+};
 
-      if (financial) {
+      if (financial && financial.Id) {
         await financialService.update(financial.Id, financialData);
         toast.success("Financial record updated successfully!");
       } else {
         await financialService.create(financialData);
         toast.success("Financial record created successfully!");
       }
-      
       onSave();
     } catch (error) {
       toast.error(error.message || "Failed to save financial record");

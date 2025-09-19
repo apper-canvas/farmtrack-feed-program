@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import FinancialItem from "@/components/molecules/FinancialItem";
-import FinancialForm from "@/components/organisms/FinancialForm";
-import StatsCard from "@/components/molecules/StatsCard";
+import { financialService } from "@/services/api/financialService";
+import ApperIcon from "@/components/ApperIcon";
 import Card from "@/components/atoms/Card";
 import Button from "@/components/atoms/Button";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
+import FinancialForm from "@/components/organisms/FinancialForm";
 import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import { financialService } from "@/services/api/financialService";
+import Error from "@/components/ui/Error";
+import FinancialItem from "@/components/molecules/FinancialItem";
+import StatsCard from "@/components/molecules/StatsCard";
 
 const Finances = () => {
   const [financials, setFinancials] = useState([]);
@@ -21,9 +21,10 @@ const Finances = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingFinancial, setEditingFinancial] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [typeFilter, setTypeFilter] = useState("all");
+const [typeFilter, setTypeFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date");
+  const [formType, setFormType] = useState("income");
 
   useEffect(() => {
     loadFinancials();
@@ -131,8 +132,9 @@ const Finances = () => {
             </p>
           </div>
         </div>
-        <FinancialForm
+<FinancialForm
           financial={editingFinancial}
+          formType={formType}
           onSave={handleFormSave}
           onCancel={handleFormCancel}
         />
@@ -171,9 +173,10 @@ const Finances = () => {
           </p>
         </div>
         <div className="flex items-center space-x-3">
-          <Button
+<Button
             onClick={() => {
-              setEditingFinancial({ type: "expense" });
+              setEditingFinancial(null);
+              setFormType("expense");
               setShowForm(true);
             }}
             icon="TrendingDown"
@@ -182,8 +185,9 @@ const Finances = () => {
             Add Expense
           </Button>
           <Button
-            onClick={() => {
-              setEditingFinancial({ type: "income" });
+onClick={() => {
+              setEditingFinancial(null);
+              setFormType("income");
               setShowForm(true);
             }}
             icon="TrendingUp"
